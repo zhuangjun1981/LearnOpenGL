@@ -205,17 +205,23 @@ int main()
 	glCreateVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
+	std::cout << "VAO: " << VAO << std::endl;
+
 	//GEN VBO AND BIND AND SEND DATA
 	GLuint VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+	std::cout << "VBO: " << VBO << std::endl;
+
 	//GEN EBO AND BIND AND SEND DATA
 	GLuint EBO;
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	std::cout << "EBO: " << EBO << std::endl;
 
 	//SET VERTEXATTRIBPOINTERS AND ENABLE (INPUT ASSEMBLY)
 	
