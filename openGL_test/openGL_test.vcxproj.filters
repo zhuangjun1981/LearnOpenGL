@@ -31,5 +31,11 @@
     <None Include="fragment_core.glsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="vertex_minimum.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="fragment_minimum.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
