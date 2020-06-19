@@ -125,6 +125,8 @@ bool loadShaders(GLuint &program)
 	}
 
 	//End
+	std::cout << "size of vertexShader: " << sizeof(vertexShader) << std::endl;
+	std::cout << "size of fragmentShader: " << sizeof(fragmentShader) << std::endl;
 	glUseProgram(0);
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
@@ -241,7 +243,7 @@ int main()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, texcoord));
 	glEnableVertexAttribArray(2);
 
-	//BIND VAO 0
+	//BIND VAO 0, release VOA
 	glBindVertexArray(0);
 
 	//TEXTURE INIT
@@ -278,6 +280,8 @@ int main()
 	//MAIN LOOP
 	while (!glfwWindowShouldClose(window)) 
 	{
+		//std::cout << "one frame" << std::endl;
+		
 		//UPDATE INPUT ---
 		glfwPollEvents();
 
@@ -299,7 +303,6 @@ int main()
 		//Activate texture
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture0);
-
 
 		//Bind vertex array object
 		glBindVertexArray(VAO);
