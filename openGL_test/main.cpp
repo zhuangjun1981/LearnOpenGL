@@ -140,7 +140,7 @@ int main()
 	glfwMakeContextCurrent(window); //important
 
 	//INIT GLEW (NEEDS WINDOW AND OPENGL CONTEXT) 
-	glewExperimental = GL_TRUE; //Use new functions
+	//glewExperimental = GL_TRUE; //Use new functions
 
 	//ERROR
 	if (glewInit() != GLEW_OK)
@@ -148,19 +148,6 @@ int main()
 		std::cout << "ERROR::MAIN.CPP::GLEW_INIT_FAILED" << std::endl;
 		glfwTerminate();
 	}
-
-	//OPENGL OPTIONS
-	glEnable(GL_DEPTH_TEST);
-
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	//SHADER INIT
 	GLuint core_program;
@@ -183,11 +170,8 @@ int main()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	//SET VERTEXATTRIBPOINTERS AND ENABLE (INPUT ASSEMBLY)
+	std::cout << "VBO: " << VBO << std::endl;
 
-	//GLuint attribLoc = glGetAttribLocation(core_program, "vertex_position");
-	//glVertexAttribPointer(attribLoc, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, position));
-	//glEnableVertexAttribArray(attribLoc);
 
 	//Position
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, position));
@@ -208,13 +192,6 @@ int main()
 
 		//use a program
 		glUseProgram(core_program);
-
-		//Update uniforms
-		//glUniform1i(glGetUniformLocation(core_program, "texture0"), 0);
-
-		//Activate texture
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, texture0);
 
 		//Bind vertex array object
 		glBindVertexArray(VAO);
