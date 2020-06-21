@@ -7,6 +7,7 @@ float vertices[] = {
 	 0.0f,  0.5f, 0.0f
 };
 
+
 bool loadShaders(GLuint &program)
 {
 	bool loadSuccess = true;
@@ -103,6 +104,22 @@ bool loadShaders(GLuint &program)
 	return loadSuccess;
 }
 
+
+void updateInput(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	}
+}
+
+
+void framebuffer_resize_callback(GLFWwindow* window, int fbW, int fbH)
+{
+	glViewport(0, 0, fbW, fbH);
+}
+
+
 int main()
 {
 	//INIT GLFW
@@ -131,14 +148,10 @@ int main()
 		return -1;
 	}
 
-	//The following is for fixed window size
-	glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
-	glViewport(0, 0, framebufferWidth, framebufferHeight);
-
 	glfwMakeContextCurrent(window); //important
-
-	//INIT GLEW (NEEDS WINDOW AND OPENGL CONTEXT) 
-	glewExperimental = GL_TRUE; //Use new functions
+	
+	//The following is for adjustable window size
+	glfwSetFramebufferSizeCallback(window, framebuffer_resize_callback);
 
 	//ERROR
 	if (glewInit() != GLEW_OK)
@@ -160,19 +173,14 @@ int main()
 	glCreateVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
-	std::cout << "VAO: " << VAO << std::endl;
-
 	//GEN VBO AND BIND AND SEND DATA
 	GLuint VBO;
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	std::cout << "VBO: " << VBO << std::endl;
-
-
 	//Position
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, position));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 
 	//BIND VAO 0, release VAO
@@ -182,11 +190,12 @@ int main()
 	//MAIN LOOP
 	while (!glfwWindowShouldClose(window))
 	{
-		//DRAW ---
-
+		//UPDATE INPUT ---
+		glfwPollEvents();
+		
 		//Clear
-		glClearColor(0.0f, 0.0f, 0.0f, 1.f);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		//use a program
 		glUseProgram(core_program);
@@ -199,12 +208,9 @@ int main()
 
 		//End Draw
 		glfwSwapBuffers(window);
-		glFlush();
 
-		glBindVertexArray(0);
-		glUseProgram(0);
-		glActiveTexture(0);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		//Get Input
+		updateInput(window);
 	}
 
 	//END OF PROGRAM
